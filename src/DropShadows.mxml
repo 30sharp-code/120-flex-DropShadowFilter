@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="520" height="430" xmlns:display="flash.display.*"  horizontalScrollPolicy="off" verticalScrollPolicy="off" backgroundGradientAlphas="[1.0, 1.0]">
+  <mx:Script>
+  <![CDATA[
+  	import flash.net.navigateToURL;
+    import mx.messaging.AbstractConsumer;
+    private function valChanged():void
+    {  
+      var filters:Array = new Array();
+      filters.push(this.boltShadow);
+      //binding this doesn't work for some reason
+      this.boltShadow.inner = this.chBoxInner.selected;
+      this.boltImage.filters = filters;
+    }
+    
+    private function defaultClicked():void
+    {
+      this.sliderAlpha.value = 1;
+      this.sliderAngle.value = 45;
+      this.sliderBlurX.value = 4;
+      this.sliderBlurY.value = 4;
+      this.sliderDistance.value = 2;
+      this.sliderStrength.value = 1;
+      this.sliderQuality.value = BitmapFilterQuality.LOW;
+      this.chBoxInner.selected = false;
+      
+      this.valChanged();
+    }
+  ]]>
+  </mx:Script>
+  <mx:HBox height="100%" width="100%">
+    <mx:VBox backgroundColor="#FFFFFF" backgroundAlpha=".5" height="100%" width="200" horizontalAlign="center" paddingTop="20">
+      <mx:Text text="{'Alpha ' + sliderAlpha.value.toFixed(2)}" />
+      <mx:HSlider id="sliderAlpha" minimum="0" maximum="1" change="valChanged();" value="1" liveDragging="true"  />
+      <mx:Text text="{'Angle ' + sliderAngle.value.toFixed(2)}" />
+      <mx:HSlider id="sliderAngle" minimum="0" maximum="360" change="valChanged();" value="45" liveDragging="true" />
+      <mx:Text text="{'Blur X ' + sliderBlurX.value.toFixed(2)}" />
+      <mx:HSlider id="sliderBlurX" minimum="0" maximum="255" change="valChanged();" value="4" liveDragging="true" />
+      <mx:Text text="{'Blur Y ' + sliderBlurY.value.toFixed(2)}" />
+      <mx:HSlider id="sliderBlurY" minimum="0" maximum="255" change="valChanged();" value="4" liveDragging="true" />
+      <mx:Text text="{'Distance ' + sliderDistance.value.toFixed(2)}" />
+      <mx:HSlider id="sliderDistance" minimum="0" maximum="30" change="valChanged();" value="2" liveDragging="true" />
+      <mx:Text text="{'Strength ' + sliderStrength.value.toFixed(2)}" />
+      <mx:HSlider id="sliderStrength" minimum="0" maximum="255" change="valChanged();" value="1" liveDragging="true" />
+      <mx:Text text="{'Quality ' + sliderQuality.value.toFixed(2)}" />
+      <mx:HSlider id="sliderQuality" minimum="0" maximum="15" change="valChanged();" value="{BitmapFilterQuality.LOW}" liveDragging="true" />
+      <mx:CheckBox paddingLeft="5" label="Inner" selected="false" id="chBoxInner" change="valChanged();" />
+      <mx:Button label="Reset Defaults" click="defaultClicked();"  cornerRadius="10"/>
+    </mx:VBox>
+    <mx:Box width="320" height="100%" verticalAlign="middle" horizontalAlign="center" paddingLeft="-15" paddingTop="-50">
+      <mx:Image source="http://www.bornaeon.com/30SharpArticles/Flex/TheFlexDropShadow/30SharpPic.swf" id="boltImage" width="300" height="300">
+          <mx:filters>
+            <mx:Array>
+              <mx:DropShadowFilter id="boltShadow" 
+                alpha="{sliderAlpha.value}"
+                angle="{sliderAngle.value}"
+                distance="{sliderDistance.value}"
+                blurX="{sliderBlurX.value}"
+                blurY="{sliderBlurY.value}"
+                strength="{sliderStrength.value}" 
+                quality="{sliderQuality.value}"
+                />
+            </mx:Array>
+          </mx:filters>
+        </mx:Image>
+      <mx:LinkButton label="view our site from here" color="#000000" cornerRadius="10" click="navigateToURL(new URLRequest('http://www.30sharp.com'))"/>
+    </mx:Box>
+  </mx:HBox>
+</mx:Application>
